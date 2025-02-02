@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
@@ -12,6 +14,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import ru.mobile.permtravel.ui.theme.PermTravelTheme
@@ -23,15 +26,16 @@ class MainActivity : ComponentActivity() {
         setContent {
             PermTravelTheme {
                 MainPage()
-                }
             }
         }
     }
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainPage() {
+fun MainPage(modifier: Modifier = Modifier) {
     Scaffold(
+        modifier = Modifier.fillMaxSize(),
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -44,7 +48,14 @@ fun MainPage() {
             )
         },
     ) { innerPadding ->
-        Greeting("Android", modifier = Modifier.padding(innerPadding))
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        ){
+            Greeting("Android", modifier)
+        }
     }
 }
 
