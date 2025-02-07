@@ -49,8 +49,7 @@ fun CPageAuthors(modifier : Modifier = Modifier) {
         modifier = modifier
             .fillMaxSize()
     ){
-        LazyColumn(
-        ) {
+        LazyColumn {
             items(authors.size) { index ->
                 AuthorItem(authors[index])
             }
