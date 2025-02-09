@@ -30,8 +30,7 @@ fun CBottomNavigationBar(navController: NavHostController) {
                 },
                 label = {
                     Text(text = navItem.title)
-                },
-                alwaysShowLabel = false
+                }
             )
         }
     }
