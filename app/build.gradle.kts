@@ -27,11 +27,17 @@ android {
 
     buildTypes {
         release {
+            val key: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
+            buildConfigField("String", "KEY", "\"$key\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            val key: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
+            buildConfigField("String", "KEY", "\"$key\"")
         }
     }
     compileOptions {
