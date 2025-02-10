@@ -1,3 +1,7 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+
+val apikey: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -10,21 +14,30 @@ android {
 
     defaultConfig {
         applicationId = "ru.mobile.permtravel"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+
     }
 
     buildTypes {
         release {
+            val key: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
+            buildConfigField("String", "KEY", "\"$key\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug {
+            val key: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
+            buildConfigField("String", "KEY", "\"$key\"")
         }
     }
     compileOptions {
@@ -36,7 +49,9 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
+
 }
 
 dependencies {
@@ -50,6 +65,9 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
+    implementation("com.yandex.android:maps.mobile:4.10.1-lite")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
