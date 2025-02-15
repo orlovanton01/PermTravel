@@ -10,12 +10,15 @@ android {
 
     defaultConfig {
         applicationId = "ru.mobile.permtravel"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+
+
     }
 
     buildTypes {
@@ -37,6 +40,7 @@ android {
     buildFeatures {
         compose = true
     }
+
 }
 
 dependencies {
@@ -50,6 +54,13 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+
+    // OpenStreetMap и его Compose адаптер
+    // origin version of osm android. You may be able to customize the version.
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    // This library dependencies
+    implementation("tech.utsmankece:osm-android-compose:0.0.5")
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
