@@ -1,7 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-
-val apikey: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY")
-
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -27,17 +23,11 @@ android {
 
     buildTypes {
         release {
-            val key: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
-            buildConfigField("String", "KEY", "\"$key\"")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-        }
-        debug {
-            val key: String = gradleLocalProperties(rootDir, providers).getProperty("API_KEY") ?: ""
-            buildConfigField("String", "KEY", "\"$key\"")
         }
     }
     compileOptions {
@@ -49,7 +39,6 @@ android {
     }
     buildFeatures {
         compose = true
-        buildConfig = true
     }
 
 }
@@ -66,7 +55,11 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
 
-    implementation("com.yandex.android:maps.mobile:4.10.1-lite")
+    // OpenStreetMap и его Compose адаптер
+    // origin version of osm android. You may be able to customize the version.
+    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    // This library dependencies
+    implementation("tech.utsmankece:osm-android-compose:0.0.5")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
