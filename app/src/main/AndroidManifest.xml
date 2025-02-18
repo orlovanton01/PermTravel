@@ -25,5 +25,7 @@
         </activity>
         <activity android:name=".AuthorsActivity"/>
     </application>
+    <uses-permission android:name="android.permission.INTERNET"
+        tools:ignore="ManifestOrder" />
 
 </manifest>
