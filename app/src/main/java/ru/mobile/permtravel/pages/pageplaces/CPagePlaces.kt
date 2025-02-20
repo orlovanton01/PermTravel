@@ -26,17 +26,20 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ru.mobile.permtravel.model.CPlace
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 
 @Composable
 fun CPagePlaces(navController: NavController, modifier : Modifier = Modifier) {
     val viewModel : CViewModelPagePlaces = viewModel()
+    val places by viewModel.places.collectAsState()
     Box (
         modifier = modifier
             .padding(top = 32.dp)
     ) {
         LazyColumn {
             items(
-                viewModel.places,
+                places,
                 key = { place -> place.id }
             ) {
                     place ->
