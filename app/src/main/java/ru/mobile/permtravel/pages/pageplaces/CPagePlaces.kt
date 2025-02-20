@@ -43,9 +43,9 @@ fun CPagePlaces(navController: NavController, modifier : Modifier = Modifier) {
                 Place(
                     place,
                     modifier,
-                onClick = {place1 ->
-                    navController.navigate("placedescription/${place1.id}")
-                }
+                    onClick = {place1 ->
+                        navController.navigate("placedescription/${place1.id}")
+                    }
                 )
             }
         }

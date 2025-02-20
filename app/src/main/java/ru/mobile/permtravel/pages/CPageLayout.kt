@@ -16,17 +16,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.mobile.permtravel.pages.pageplacedescription.CPagePlaceDescription
 import ru.mobile.permtravel.pages.pageplaces.CPagePlaces
 import ru.mobile.permtravel.util.CBottomNavigationBar
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CPageLayout()
 {
     val navController = rememberNavController()
+
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         topBar = {
@@ -39,11 +40,14 @@ fun CPageLayout()
                     Text("От края до края")
                 },
                 navigationIcon = {
-                    IconButton(onClick = { /* do something */ }) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "back"
-                        )
+                    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route?:""
+                    if (currentRoute == "placedescription/{id}") {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "back"
+                            )
+                        }
                     }
                 },
             )
@@ -62,7 +66,7 @@ fun CPageLayout()
             composable("places") { CPagePlaces(navController) }
             composable("placedescription/{id}") { navBackStackEntry ->
                 val id = navBackStackEntry.arguments?.getString("id")?:""
-                CPagePlaceDescription(UUID.fromString(id)) }
+                CPagePlaceDescription(id) }
             composable("map") { CPageMap() }
         }
     }

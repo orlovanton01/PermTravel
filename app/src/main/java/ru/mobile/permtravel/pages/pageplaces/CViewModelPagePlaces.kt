@@ -42,8 +42,4 @@ class CViewModelPagePlaces : ViewModel() {
 
     val places: List<CPlace>
         get() = _places
-
-    fun getPlaceDescriptionById(id: UUID): String? {
-        return _places.find { it.id == id }?.description
-    }
 }
