@@ -1,5 +1,6 @@
 package ru.mobile.permtravel.pages.pageplaces
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -17,8 +18,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -28,21 +27,23 @@ import androidx.navigation.NavController
 import ru.mobile.permtravel.model.CPlace
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CPagePlaces(navController: NavController, modifier : Modifier = Modifier) {
     val viewModel : CViewModelPagePlaces = viewModel()
     val places by viewModel.places.collectAsState()
-    Box (
-        modifier = modifier
-            .padding(top = 32.dp)
-    ) {
-        LazyColumn {
+        LazyColumn (
+            modifier = modifier
+                .padding(top = 32.dp)
+        ) {
             items(
                 places,
                 key = { place -> place.id }
             ) {
-                    place ->
+                place ->
                 Place(
                     place,
                     modifier,
@@ -53,7 +54,6 @@ fun CPagePlaces(navController: NavController, modifier : Modifier = Modifier) {
             }
         }
     }
-}
 
 @Composable
 fun Place(

@@ -17,5 +17,5 @@ interface CDAOPlaces {
     fun getById(id: UUID): Flow<CPlace?>
 
     @Insert(onConflict = REPLACE)
-    fun insert(checkPoint : CPlace)
+    fun insert(place : CPlace)
 }

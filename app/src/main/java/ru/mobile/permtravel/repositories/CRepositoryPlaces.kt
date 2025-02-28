@@ -4,6 +4,7 @@ import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import ru.mobile.permtravel.database.CDatabase
 import ru.mobile.permtravel.model.CPlace
+import java.util.UUID
 
 class CRepositoryPlaces(
     context : Context
@@ -19,10 +20,15 @@ class CRepositoryPlaces(
         return daoPlaces.getAll()
     }
 
-    suspend fun insert(
-        checkPoint: CPlace
+    fun insert(
+        place: CPlace
     )
     {
-        daoPlaces.insert(checkPoint)
+        daoPlaces.insert(place)
     }
+
+    fun getPlaceById(id: UUID): Flow<CPlace?> {
+        return daoPlaces.getById(id)
+    }
+
 }
