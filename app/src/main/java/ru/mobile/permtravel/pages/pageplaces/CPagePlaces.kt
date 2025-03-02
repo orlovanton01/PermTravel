@@ -1,5 +1,6 @@
 package ru.mobile.permtravel.pages.pageplaces
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,14 +12,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.material3.Text
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -26,17 +26,40 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import ru.mobile.permtravel.model.CPlace
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import coil.compose.rememberAsyncImagePainter
+import coil.request.ImageRequest
 
+@SuppressLint("SuspiciousIndentation")
 @Composable
 fun CPagePlaces(navController: NavController, modifier : Modifier = Modifier) {
     val viewModel : CViewModelPagePlaces = viewModel()
-    Box (
-        modifier = modifier
-            .padding(top = 32.dp)
-    ) {
-        LazyColumn {
+    val places by viewModel.places.collectAsState()
+    if (places.isEmpty()) {
+        Box(
+            contentAlignment = Alignment.Center,
+            modifier = modifier
+                .fillMaxSize()
+        ){
+            Text(
+                text = "Загрузка...",
+                fontSize = 20.sp,
+                modifier = modifier
+                    .padding(16.dp),
+                textAlign = TextAlign.Center
+            )
+        }
+    } else {
+        LazyColumn (
+            state = rememberLazyListState(),
+            modifier = modifier
+                .padding(top = 32.dp)
+        ) {
             items(
-                viewModel.places,
+                places,
                 key = { place -> place.id }
             ) {
                     place ->
@@ -86,11 +109,17 @@ fun Place(
             val imageModifier = modifier
                 .height(400.dp)
             Image(
-                painter = painterResource(id = place.photo),
+                painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(place.photoPath)
+                        .crossfade(true)
+                        .build()
+                ),
                 contentDescription = place.name,
                 contentScale = ContentScale.Crop,
                 modifier = imageModifier
             )
+
         }
     }
 }

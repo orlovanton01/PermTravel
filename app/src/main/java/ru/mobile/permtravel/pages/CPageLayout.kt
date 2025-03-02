@@ -27,6 +27,7 @@ import ru.mobile.permtravel.util.CBottomNavigationBar
 fun CPageLayout()
 {
     val navController = rememberNavController()
+    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route?:""
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -40,7 +41,6 @@ fun CPageLayout()
                     Text("От края до края")
                 },
                 navigationIcon = {
-                    val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route?:""
                     if (currentRoute == "placedescription/{id}") {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
@@ -53,7 +53,8 @@ fun CPageLayout()
             )
         },
         bottomBar = {
-            CBottomNavigationBar(navController = navController)
+            if (currentRoute != "placedescription/{id}")
+                CBottomNavigationBar(navController = navController)
         }
     ) { innerPadding ->
         val modifier = Modifier.padding(innerPadding)
