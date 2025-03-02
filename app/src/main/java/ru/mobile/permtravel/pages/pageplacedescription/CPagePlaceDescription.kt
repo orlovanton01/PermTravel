@@ -8,17 +8,15 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.focusModifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ru.mobile.permtravel.pages.pageplaces.CViewModelPagePlaces
 import java.util.UUID
 
 @Composable
 fun CPagePlaceDescription(id: String, modifier: Modifier = Modifier) {
-    val viewModel: CViewModelPagePlaces = viewModel()
+    val viewModel: CViewModelPagePlaceDescription = viewModel()
 
     // Запоминаем ID и следим за изменениями через Flow
     val placeFlow = remember(id) { viewModel.getPlaceById(UUID.fromString(id)) }

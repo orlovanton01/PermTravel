@@ -12,7 +12,7 @@ data class CPlace (
     @ColumnInfo
     var name : String,
     @ColumnInfo
-    var photo: Int,
+    var photoPath: String,
     @ColumnInfo
     var description: String
 )
