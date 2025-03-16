@@ -30,9 +30,10 @@ class CViewModelPagePlaces(application: Application) :  AndroidViewModel(applica
     init {
         val context = getApplication<Application>().applicationContext
         viewModelScope.launch(Dispatchers.IO) {
-//            if (repositoryPlaces.getAll().first().isEmpty()) {
-                insertTestData(context)
-//            }
+            if (repositoryPlaces.getAll().first().isEmpty()) {
+//              insertTestData(context)
+                repositoryPlaces.updatePlacesFromServer()
+            }
         }
     }
 

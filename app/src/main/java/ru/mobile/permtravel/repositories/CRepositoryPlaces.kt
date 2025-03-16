@@ -4,6 +4,7 @@ import android.content.Context
 import kotlinx.coroutines.flow.Flow
 import ru.mobile.permtravel.database.CDatabase
 import ru.mobile.permtravel.model.CPlace
+import ru.mobile.permtravel.util.retrofit.CAPIPlaces
 import java.util.UUID
 
 class CRepositoryPlaces(
@@ -31,4 +32,15 @@ class CRepositoryPlaces(
         return daoPlaces.getById(id)
     }
 
+    fun insertAll(
+        places: List<CPlace>
+    )
+    {
+        daoPlaces.insertAll(places)
+    }
+
+    suspend fun updatePlacesFromServer(){
+        val listplaces = CAPIPlaces.retrofitService.getPlaces()
+        insertAll(listplaces)
+    }
 }
