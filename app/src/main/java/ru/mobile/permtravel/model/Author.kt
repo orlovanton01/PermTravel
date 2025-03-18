@@ -1,10 +1,21 @@
 package ru.mobile.permtravel.model
 
-import androidx.annotation.DrawableRes
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import java.util.UUID
 
+@Entity(tableName = "authors")
 data class Author(
-    val id: Int,
+    @PrimaryKey
+    val id: UUID,
+    @ColumnInfo
     val name: String,
-    //val avatarUrl: String // использовать glide
-    @DrawableRes val imageRes: Int //Ссылка на ресурс drawable
+    @ColumnInfo
+    val instagramLink: String,
+    @ColumnInfo
+    val description: String,
+    @ColumnInfo
+    val avatar: String,
+
 )
