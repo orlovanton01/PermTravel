@@ -18,4 +18,7 @@ interface CDAOPlaces {
 
     @Insert(onConflict = REPLACE)
     fun insert(place : CPlace)
+
+    @Insert(onConflict = REPLACE)
+    fun insertAll(places: List<CPlace>)
 }

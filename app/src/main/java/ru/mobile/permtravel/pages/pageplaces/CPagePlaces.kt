@@ -1,7 +1,6 @@
 package ru.mobile.permtravel.pages.pageplaces
 
 import android.annotation.SuppressLint
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -29,9 +28,7 @@ import ru.mobile.permtravel.model.CPlace
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import coil.compose.rememberAsyncImagePainter
-import coil.request.ImageRequest
+import coil.compose.AsyncImage
 
 @SuppressLint("SuspiciousIndentation")
 @Composable
@@ -108,18 +105,12 @@ fun Place(
 
             val imageModifier = modifier
                 .height(400.dp)
-            Image(
-                painter = rememberAsyncImagePainter(
-                    ImageRequest.Builder(LocalContext.current)
-                        .data(place.photoPath)
-                        .crossfade(true)
-                        .build()
-                ),
+            AsyncImage(
+                model = "http://192.168.0.193:8080/files/${place.id}",
                 contentDescription = place.name,
                 contentScale = ContentScale.Crop,
                 modifier = imageModifier
             )
-
         }
     }
 }
