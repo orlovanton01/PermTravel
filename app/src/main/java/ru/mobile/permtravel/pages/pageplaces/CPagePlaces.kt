@@ -106,9 +106,7 @@ fun Place(
             val imageModifier = modifier
                 .height(400.dp)
             AsyncImage(
-                // Замените на ваш IP компа если запускаете на устройстве
-                // Если в эмуляторе используйте http://10.0.2.2:8080/files/${place.id}
-                model = "http://192.168.0.193:8080/files/${place.id}",
+                model = place.photoPath,  // Загружаем из локального пути
                 contentDescription = place.name,
                 contentScale = ContentScale.Crop,
                 modifier = imageModifier

@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import ru.mobile.permtravel.database.dao.CDAOPlaces
 import ru.mobile.permtravel.model.CPlace
 
-@Database(entities = [CPlace::class], version = 12)
+@Database(entities = [CPlace::class], version = 13)
 abstract class CDatabase : RoomDatabase() {
     abstract fun daoPlaces(): CDAOPlaces
 
