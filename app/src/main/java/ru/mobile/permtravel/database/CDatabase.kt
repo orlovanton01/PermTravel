@@ -11,7 +11,7 @@ import ru.mobile.permtravel.model.Author
 import ru.mobile.permtravel.model.CPlace
 import ru.mobile.permtravel.model.Post
 
-@Database(entities = [CPlace::class, Author::class, Post::class], version = 13)
+@Database(entities = [CPlace::class, Author::class, Post::class], version = 14)
 abstract class CDatabase : RoomDatabase() {
     abstract fun daoPlaces(): CDAOPlaces
     abstract fun daoAuthors(): CDAOAuthors
