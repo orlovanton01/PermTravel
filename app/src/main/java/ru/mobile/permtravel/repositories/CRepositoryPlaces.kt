@@ -32,7 +32,7 @@ class CRepositoryPlaces(
         return daoPlaces.getById(id)
     }
 
-    fun insertAll(
+    private fun insertAll(
         places: List<CPlace>
     )
     {
@@ -42,5 +42,12 @@ class CRepositoryPlaces(
     suspend fun updatePlacesFromServer(){
         val listplaces = CAPIPlaces.retrofitService.getPlaces()
         insertAll(listplaces)
+    }
+
+    fun update(
+        place: CPlace
+    )
+    {
+        daoPlaces.update(place)
     }
 }

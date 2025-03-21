@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.Companion.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import ru.mobile.permtravel.model.CPlace
 import java.util.UUID
@@ -21,4 +22,7 @@ interface CDAOPlaces {
 
     @Insert(onConflict = REPLACE)
     fun insertAll(places: List<CPlace>)
+
+    @Update(onConflict = REPLACE)
+    fun update(place : CPlace)
 }
