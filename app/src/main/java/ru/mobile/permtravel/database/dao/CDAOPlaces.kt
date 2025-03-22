@@ -18,11 +18,11 @@ interface CDAOPlaces {
     fun getById(id: UUID): Flow<CPlace?>
 
     @Insert(onConflict = REPLACE)
-    fun insert(place : CPlace)
-
-    @Insert(onConflict = REPLACE)
     fun insertAll(places: List<CPlace>)
 
     @Update(onConflict = REPLACE)
     fun update(place : CPlace)
+
+    @Query("DELETE FROM places WHERE id = :id")
+    fun deleteById(id: UUID)
 }

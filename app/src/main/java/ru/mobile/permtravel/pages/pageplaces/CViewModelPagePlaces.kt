@@ -2,8 +2,7 @@ package ru.mobile.permtravel.pages.pageplaces
 
 import android.app.Application
 import android.content.Context
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
@@ -33,27 +32,34 @@ class CViewModelPagePlaces(application: Application) :  AndroidViewModel(applica
     init {
         val context = getApplication<Application>().applicationContext
         viewModelScope.launch(Dispatchers.IO) {
-            var placesList = repositoryPlaces.getAll().first()
-            if (placesList.isEmpty()) {
-//              insertTestData(context)
+            try {
                 repositoryPlaces.updatePlacesFromServer()
-                placesList = repositoryPlaces.getAll().first()
-                for (place in placesList) {
-                    if (place.photoPath.isEmpty() || !File(place.photoPath).exists()) {
-                        val localPath = downloadImage(
+            } catch (e: Exception) {
+                Log.e("ViewModel", "Не удалось обновить с сервера, загружаем локальные данные", e)
+            }
+
+            val placesList = repositoryPlaces.getAll().first()
+            for (place in placesList) {
+                if (place.photoPath.isEmpty() || !File(place.photoPath).exists()) {
+                    val localPath = try {
+                        downloadImage(
                             getApplication(),
                             "http://192.168.0.193:8080/files/${place.id}",
                             place.id.toString()
                         )
-                        if (localPath != null) {
-                            place.photoPath = localPath
-                            repositoryPlaces.update(place) // Обновляем путь в БД
-                        }
+                    } catch (e: Exception) {
+                        Log.e("ViewModel", "Ошибка загрузки изображения", e)
+                        null
+                    }
+                    if (localPath != null) {
+                        place.photoPath = localPath
+                        repositoryPlaces.update(place) // Обновляем путь в БД
                     }
                 }
             }
         }
     }
+
 
     private fun downloadImage(context: Context, imageUrl: String, placeId: String): String? {
         val client = OkHttpClient()

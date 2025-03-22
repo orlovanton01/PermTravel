@@ -29,6 +29,7 @@ abstract class CDatabase : RoomDatabase() {
                             CDatabase::class.java,
                             "permtravel.db"
                         )
+                            .fallbackToDestructiveMigration() // Автоматически удаляет БД при изменении схемы
                             .build()
                 }
 
