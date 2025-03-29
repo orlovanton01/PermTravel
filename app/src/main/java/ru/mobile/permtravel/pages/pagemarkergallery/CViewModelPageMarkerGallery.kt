@@ -12,8 +12,10 @@ import java.util.UUID
 
 
 class CViewModelPageMarkerGallery(application: Application) :  AndroidViewModel(application) {
+    // Используем репозиторий мест
     private val repositoryPlaces = CRepositoryPlaces(application)
 
+    // Получение места по идентификатору
     fun getPlaceById(id: UUID): StateFlow<CPlace?> {
         return repositoryPlaces.getPlaceById(id)
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
