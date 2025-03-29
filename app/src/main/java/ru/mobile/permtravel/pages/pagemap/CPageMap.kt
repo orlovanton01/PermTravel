@@ -45,9 +45,9 @@ fun CPageMap(navController: NavController, modifier : Modifier = Modifier) {
     ){
         // define camera state
         val cameraState = rememberCameraState {
-            geoPoint = GeoPoint(58.008252, 56.187958)
-            zoom = 20.0 // optional, default is 5.0
-
+            geoPoint = GeoPoint(59.0, 58.0)
+            zoom = 8.0 // optional, default is 5.0
+            speed = 200
         }
 
 
@@ -58,27 +58,28 @@ fun CPageMap(navController: NavController, modifier : Modifier = Modifier) {
         )
         {
 
-
             places.forEach{ place ->
-                Marker(
-                    state = rememberMarkerState(
-                        geoPoint = GeoPoint(place.latitude, place.longitude)), // add marker state
-                    title = place.name,
-                    snippet = String.format("%.4fº, %.4fº", place.latitude, place.longitude)
-                ){
-                    Column(
-                        modifier = Modifier
-                            .wrapContentSize()
-                            .background(color = Color.Gray, shape = RoundedCornerShape(7.dp))
-                            .padding(10.dp),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
+                if (!(place.latitude == 0.0 && place.longitude==0.0)){
+                    Marker(
+                        state = rememberMarkerState(
+                            geoPoint = GeoPoint(place.latitude, place.longitude)), // add marker state
+                        title = place.name,
+                        snippet = String.format("%.4fº, %.4fº", place.latitude, place.longitude)
                     ){
-                        Text(text = it.title)
-                        Text(text = it.snippet)
-                        Button(onClick = {
-                            navController.navigate("markerinfo/${place.id}")
-                        }) { Text("Подробнее") }
+                        Column(
+                            modifier = Modifier
+                                .wrapContentSize()
+                                .background(color = Color.Gray, shape = RoundedCornerShape(7.dp))
+                                .padding(10.dp),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ){
+                            Text(text = it.title)
+                            Text(text = it.snippet)
+                            Button(onClick = {
+                                navController.navigate("markerinfo/${place.id}")
+                            }) { Text("Подробнее") }
+                        }
                     }
                 }
             }

@@ -20,6 +20,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.mobile.permtravel.pages.pageauthors.CPageAuthors
 import ru.mobile.permtravel.pages.pagemap.CPageMap
+import ru.mobile.permtravel.pages.pagemarkergallery.CPageMarkerGallery
 import ru.mobile.permtravel.pages.pagemarkerinfo.CPageMarkerInfo
 import ru.mobile.permtravel.pages.pageplacedescription.CPagePlaceDescription
 import ru.mobile.permtravel.pages.pageplaces.CPagePlaces
@@ -45,7 +46,11 @@ fun CPageLayout() {
                     Text("От края до края")
                 },
                 navigationIcon = {
-                    if (currentRoute == "placedescription/{id}") {
+                    if (
+                        currentRoute == "placedescription/{id}"
+                        || currentRoute == "markerinfo/{id}"
+                        || currentRoute == "markergallery/{id}"
+                        ) {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -78,7 +83,10 @@ fun CPageLayout() {
                 val markerId = navBackStackEntry.arguments?.getString("id") ?: ""
                 CPageMarkerInfo(markerId, navController)
             }
-
+            composable("markergallery/{id}"){  navBackStackEntry ->
+                val galleryId = navBackStackEntry.arguments?.getString("id") ?: ""
+                CPageMarkerGallery(galleryId)
+            }
             composable("posts/{authorId}") { navBackStackEntry ->
                 val authorId = navBackStackEntry.arguments?.getString("authorId") ?: ""
                 CPagePosts(
