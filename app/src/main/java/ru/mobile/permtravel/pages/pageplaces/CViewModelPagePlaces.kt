@@ -26,7 +26,7 @@ class CViewModelPagePlaces(application: Application) :  AndroidViewModel(applica
     private val repositoryPlaces = CRepositoryPlaces(application)
     val places: StateFlow<List<CPlace>> = repositoryPlaces.getAll()
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf(
-            CPlace(UUID.randomUUID(), "Загрузка...", "", "Ожидаем данные...")
+            CPlace(UUID.randomUUID(), "Загрузка...", "", "Ожидаем данные...",0.0, 0.0)
         ))
     //Это кусок кода для вставки тестовых элементов в БД.
     init {
@@ -44,7 +44,7 @@ class CViewModelPagePlaces(application: Application) :  AndroidViewModel(applica
                     val localPath = try {
                         downloadImage(
                             getApplication(),
-                            "http://192.168.0.193:8080/files/${place.id}",
+                            "http://192.168.0.105:8080/files/${place.id}",
                             place.id.toString()
                         )
                     } catch (e: Exception) {

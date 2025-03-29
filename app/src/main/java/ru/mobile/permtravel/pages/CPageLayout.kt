@@ -14,20 +14,19 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import ru.mobile.permtravel.model.Author
 import ru.mobile.permtravel.pages.pageauthors.CPageAuthors
+import ru.mobile.permtravel.pages.pagemap.CPageMap
+import ru.mobile.permtravel.pages.pagemarkergallery.CPageMarkerGallery
+import ru.mobile.permtravel.pages.pagemarkerinfo.CPageMarkerInfo
 import ru.mobile.permtravel.pages.pageplacedescription.CPagePlaceDescription
 import ru.mobile.permtravel.pages.pageplaces.CPagePlaces
 import ru.mobile.permtravel.pages.pageposts.CPageCreatePost
 import ru.mobile.permtravel.pages.pageposts.CPagePosts
-import ru.mobile.permtravel.pages.pageposts.CViewModelPagePosts
 import ru.mobile.permtravel.util.CBottomNavigationBar
-import java.util.UUID
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +46,11 @@ fun CPageLayout() {
                     Text("От края до края")
                 },
                 navigationIcon = {
-                    if (currentRoute == "placedescription/{id}") {
+                    if (
+                        currentRoute == "placedescription/{id}"
+                        || currentRoute == "markerinfo/{id}"
+                        || currentRoute == "markergallery/{id}"
+                        ) {
                         IconButton(onClick = { navController.popBackStack() }) {
                             Icon(
                                 imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -75,7 +78,15 @@ fun CPageLayout() {
                 val id = navBackStackEntry.arguments?.getString("id") ?: ""
                 CPagePlaceDescription(id)
             }
-            composable("map") { CPageMap() }
+            composable("map") { CPageMap(navController) }
+            composable("markerinfo/{id}"){  navBackStackEntry ->
+                val markerId = navBackStackEntry.arguments?.getString("id") ?: ""
+                CPageMarkerInfo(markerId, navController)
+            }
+            composable("markergallery/{id}"){  navBackStackEntry ->
+                val galleryId = navBackStackEntry.arguments?.getString("id") ?: ""
+                CPageMarkerGallery(galleryId)
+            }
             composable("posts/{authorId}") { navBackStackEntry ->
                 val authorId = navBackStackEntry.arguments?.getString("authorId") ?: ""
                 CPagePosts(

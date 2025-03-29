@@ -19,5 +19,13 @@ data class CPlace (
     var photoPath: String,
     @ColumnInfo
     @Json(name = "description")
-    var description: String
+    var description: String,
+
+    @Json(name = "latitude")
+    @ColumnInfo
+    var latitude: Double,
+
+    @Json(name = "longitude")
+    @ColumnInfo
+    var longitude: Double
 )
