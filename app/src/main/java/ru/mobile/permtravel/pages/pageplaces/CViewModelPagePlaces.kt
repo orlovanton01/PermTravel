@@ -44,7 +44,7 @@ class CViewModelPagePlaces(application: Application) :  AndroidViewModel(applica
                     val localPath = try {
                         downloadImage(
                             getApplication(),
-                            "http://192.168.0.105:8080/files/${place.id}",
+                            "http://192.168.0.193:8080/files/${place.id}",
                             place.id.toString()
                         )
                     } catch (e: Exception) {

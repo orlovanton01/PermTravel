@@ -62,7 +62,7 @@ fun CPageLayout() {
             )
         },
         bottomBar = {
-            if (currentRoute != "placedescription/{id}" && currentRoute != "posts/{authorId}" && currentRoute != "createPost/{authorId}")
+            if (currentRoute != "placedescription/{id}" && currentRoute != "posts/{authorId}" && currentRoute != "createPost/{authorId}" && currentRoute != "markerinfo/{id}" && currentRoute != "markergallery/{id}")
                 CBottomNavigationBar(navController = navController)
         }
     ) { innerPadding ->
