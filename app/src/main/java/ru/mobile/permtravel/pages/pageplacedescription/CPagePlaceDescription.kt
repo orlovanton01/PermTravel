@@ -8,10 +8,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import java.util.Locale
 import java.util.UUID
 
 @Composable
@@ -33,6 +35,14 @@ fun CPagePlaceDescription(id: String, modifier: Modifier = Modifier) {
                     fontWeight = FontWeight.Bold,
                     modifier = modifier
                         .padding(bottom = 8.dp)
+                )
+                // Коррдинаты достопримечательности
+                Text(
+                    text = String.format(Locale.ENGLISH, "Координаты: %.6fº, %.6fº", it.latitude, it.longitude),
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 16.sp,
+                    modifier = modifier
+                        .padding(bottom = 4.dp)
                 )
                 Text(text = it.description, fontSize = 16.sp)
             }

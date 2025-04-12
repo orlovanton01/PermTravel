@@ -58,6 +58,7 @@ dependencies {
     implementation("org.osmdroid:osmdroid-android:6.1.16")
     // This library dependencies
     implementation("tech.utsmankece:osm-android-compose:0.0.5")
+    implementation(libs.play.services.location)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.coil.compose)
