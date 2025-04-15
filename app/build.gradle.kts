@@ -55,9 +55,9 @@ dependencies {
 
     // OpenStreetMap и его Compose адаптер
     // origin version of osm android. You may be able to customize the version.
-    implementation("org.osmdroid:osmdroid-android:6.1.16")
+    implementation(libs.osmdroid.android)
     // This library dependencies
-    implementation("tech.utsmankece:osm-android-compose:0.0.5")
+    implementation(libs.osm.android.compose)
     implementation(libs.play.services.location)
     ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
