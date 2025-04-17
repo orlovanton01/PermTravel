@@ -20,8 +20,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import ru.mobile.permtravel.pages.pageauthors.CPageAuthors
 import ru.mobile.permtravel.pages.pagemap.CPageMap
-import ru.mobile.permtravel.pages.pagemarkergallery.CPageMarkerGallery
-import ru.mobile.permtravel.pages.pagemarkerinfo.CPageMarkerInfo
 import ru.mobile.permtravel.pages.pageplacedescription.CPagePlaceDescription
 import ru.mobile.permtravel.pages.pageplaces.CPagePlaces
 import ru.mobile.permtravel.pages.pageposts.CPageCreatePost
@@ -79,14 +77,6 @@ fun CPageLayout() {
                 CPagePlaceDescription(id)
             }
             composable("map") { CPageMap(navController) }
-            composable("markerinfo/{id}"){  navBackStackEntry ->
-                val markerId = navBackStackEntry.arguments?.getString("id") ?: ""
-                CPageMarkerInfo(markerId, navController)
-            }
-            composable("markergallery/{id}"){  navBackStackEntry ->
-                val galleryId = navBackStackEntry.arguments?.getString("id") ?: ""
-                CPageMarkerGallery(galleryId)
-            }
             composable("posts/{authorId}") { navBackStackEntry ->
                 val authorId = navBackStackEntry.arguments?.getString("authorId") ?: ""
                 CPagePosts(
