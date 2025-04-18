@@ -9,6 +9,7 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 // Если в эмуляторе используйте http://10.0.2.2:8080
 private const val BASE_URL =
     "http://192.168.0.193:8080"
+//      "http://10.0.2.2:8080"
 
 val moshi : Moshi = Moshi.Builder()
     .add(CAdapterUUID())
@@ -23,5 +24,17 @@ private val retrofit = Retrofit.Builder()
 object CAPIPlaces {
     val retrofitService : IAPIPlaces by lazy {
         retrofit.create(IAPIPlaces::class.java)
+    }
+}
+
+object  CAPIAuthors {
+    val retrofitService : IAPIAuthors by lazy {
+        retrofit.create(IAPIAuthors::class.java)
+    }
+}
+
+object  CAPIPosts {
+    val retrofitService : IAPIPosts by lazy {
+        retrofit.create(IAPIPosts::class.java)
     }
 }

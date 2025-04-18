@@ -17,6 +17,9 @@ interface CDAOPlaces {
     @Query("SELECT * FROM places WHERE id=:id")
     fun getById(id: UUID): Flow<CPlace?>
 
+    @Query("SELECT * FROM places WHERE id=:id")
+    fun getByIdForPosts2(id: UUID?): Flow<CPlace?>
+
     @Insert(onConflict = REPLACE)
     fun insertAll(places: List<CPlace>)
 

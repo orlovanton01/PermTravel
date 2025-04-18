@@ -18,4 +18,10 @@ interface CDAOAuthors {
 
     @Insert(onConflict = REPLACE)
     fun insert(authors : Author)
+
+    @Insert(onConflict = REPLACE)
+    fun insertAll (authors: List<Author>)
+
+    @Query("DELETE FROM authors WHERE id = :id")
+    fun deleteById(id: UUID)
 }

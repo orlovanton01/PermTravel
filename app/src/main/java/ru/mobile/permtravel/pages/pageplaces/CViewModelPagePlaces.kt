@@ -14,6 +14,7 @@ import kotlinx.coroutines.launch
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import ru.mobile.permtravel.R
+import ru.mobile.permtravel.model.Author
 import ru.mobile.permtravel.model.CPlace
 import ru.mobile.permtravel.repositories.CRepositoryPlaces
 import java.io.File
@@ -28,6 +29,8 @@ class CViewModelPagePlaces(application: Application) :  AndroidViewModel(applica
         .stateIn(viewModelScope, SharingStarted.Lazily, listOf(
             CPlace(UUID.randomUUID(), "Загрузка...", "", "Ожидаем данные...",0.0, 0.0)
         ))
+
+
     //Это кусок кода для вставки тестовых элементов в БД.
     init {
         val context = getApplication<Application>().applicationContext

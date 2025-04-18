@@ -24,6 +24,10 @@ class CRepositoryPlaces(
         return daoPlaces.getById(id)
     }
 
+    fun getPlaceByIdForPosts(id: UUID?): Flow<CPlace?> {
+        return daoPlaces.getByIdForPosts2(id)
+    }
+
     private fun deleteById(id: UUID) {
         return daoPlaces.deleteById(id)
     }

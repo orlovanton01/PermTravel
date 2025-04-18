@@ -17,4 +17,10 @@ interface CDAOPosts {
 
     @Insert(onConflict = REPLACE)
     suspend fun insertPost(posts : Post)
+
+    @Insert(onConflict = REPLACE)
+    fun insertAll(posts: List<Author>)
+
+    @Query("DELETE FROM posts WHERE id = :id")
+    fun deleteById(id: UUID)
 }

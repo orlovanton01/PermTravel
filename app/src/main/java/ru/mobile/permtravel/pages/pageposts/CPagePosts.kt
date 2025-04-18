@@ -5,6 +5,11 @@ package ru.mobile.permtravel.pages.pageposts
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+import android.graphics.Rect
+import android.graphics.Typeface
 import android.inputmethodservice.Keyboard
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -75,16 +80,22 @@ import java.util.UUID
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.window.Dialog
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImagePainter.State.Empty.painter
 import kotlinx.coroutines.flow.MutableStateFlow
 import ru.mobile.permtravel.pages.pageauthors.CPageAuthors
+import ru.mobile.permtravel.pages.pageplacedescription.CViewModelPagePlaceDescription
+import ru.mobile.permtravel.pages.pageplaces.CViewModelPagePlaces
+import ru.mobile.permtravel.repositories.CRepositoryPlaces
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -99,6 +110,8 @@ fun CPagePosts(
     val posts by postsFlow.collectAsState(initial = null)
     val authorFlow = remember(authorId) { postViewModel.getAuthorById(authorId = UUID.fromString(authorId)) }
     val author by authorFlow.collectAsState(initial = null)
+
+
     var showDialog by remember { mutableStateOf(false) }
     val context = LocalContext.current
 
@@ -121,7 +134,7 @@ fun CPagePosts(
                     Image(
                         painter = rememberAsyncImagePainter(
                             ImageRequest.Builder(LocalContext.current)
-                                .data(author?.avatar)
+                                .data(author?.let { generateAvatar(it.name) })
                                 .crossfade(true)
                                 .build()
                         ),
@@ -189,7 +202,7 @@ fun CPagePosts(
                 Image(
                     painter = rememberAsyncImagePainter(
                         ImageRequest.Builder(LocalContext.current)
-                            .data(author?.avatar)
+                            .data(author?.let { generateAvatar(it.name) })
                             .crossfade(true)
                             .build()
                     ),
@@ -240,17 +253,74 @@ fun CPagePosts(
             LazyColumn {
                 items(posts.orEmpty()) {
                         post -> post?.let {
-                    PostItem(post)
+                    PostItem(post,
+                        navController)
                 }
                 }
             }
     }
 }
 
+fun generateAvatar(name: String): Bitmap {
+    val firstLetter = name.firstOrNull()?.uppercase() ?: "?"
+    val backgroundColor = getColorForLetter(firstLetter)
 
+
+    val size = 200
+    val bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+
+    val paint = Paint().apply {
+        color = backgroundColor.toArgb()
+        isAntiAlias = true
+        style = Paint.Style.FILL
+    }
+
+    // Рисуем круг
+    canvas.drawCircle(size / 2f, size / 2f, size / 2f, paint)
+
+    // Настройки текста
+    val textPaint = Paint().apply {
+        color = androidx.compose.ui.graphics.Color.White.toArgb()
+        textSize = size / 2.5f
+        textAlign = Paint.Align.CENTER
+        typeface = Typeface.DEFAULT_BOLD
+    }
+
+    // Рисуем букву в центре
+    val textBounds = Rect()
+    textPaint.getTextBounds(firstLetter, 0, firstLetter.length, textBounds)
+    val x = size / 2f
+    val y = size / 2f - textBounds.exactCenterY()
+    canvas.drawText(firstLetter, x, y, textPaint)
+
+    return bitmap
+}
+
+private fun getColorForLetter(letter: String): androidx.compose.ui.graphics.Color {
+    val colors = listOf(
+        Color(0xFFEF5350), Color(0xFFAB47BC), Color(0xFF5C6BC0),
+        Color(0xFF42A5F5), Color(0xFF26A69A), Color(0xFF66BB6A),
+        Color(0xFFFFCA28), Color(0xFFFF7043)
+    )
+    val index = letter[0].code % colors.size
+    return colors[index]
+}
 
 @Composable
-fun PostItem(post: Post) {
+fun PostItem(
+    post: Post,
+    navController: NavHostController
+    ) {
+    val placeViewModel: CViewModelPagePlaceDescription = viewModel()
+
+    // Запоминаем ID и следим за изменениями через Flow
+    val placeFlow = remember(post.placeId) { placeViewModel.getPlaceByIdForPosts(post.placeId) }
+
+    // Преобразуем Flow в State
+    val place by placeFlow.collectAsState(initial = null)
+
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -261,11 +331,28 @@ fun PostItem(post: Post) {
             .background(MaterialTheme.colorScheme.background.copy(alpha=0.1f))
     ) {
 
-            Text(
-                text = post.text,
-                style = MaterialTheme.typography.bodyLarge,
-                modifier = Modifier.padding(bottom = 8.dp)
-            )
+        Text(
+            text = post.text,
+            style = MaterialTheme.typography.bodyLarge,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        post.placeId?.let { placeId ->
+            place?.let { placeObj ->
+                Text(
+                    text = placeObj.name,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    ),
+                    modifier = Modifier
+                        .clickable {
+                            navController.navigate("placedescription/${placeObj.id}")
+                        }
+                        .padding(bottom = 4.dp),
+                    textDecoration = TextDecoration.Underline
+                )
+            }
+
+        }
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.End

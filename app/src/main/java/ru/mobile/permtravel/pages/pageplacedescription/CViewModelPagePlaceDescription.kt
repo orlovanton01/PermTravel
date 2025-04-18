@@ -17,4 +17,9 @@ class CViewModelPagePlaceDescription(application: Application) :  AndroidViewMod
         return repositoryPlaces.getPlaceById(id)
             .stateIn(viewModelScope, SharingStarted.Lazily, null)
     }
+
+    fun getPlaceByIdForPosts(id: UUID?): StateFlow<CPlace?> {
+        return repositoryPlaces.getPlaceByIdForPosts(id)
+            .stateIn(viewModelScope, SharingStarted.Lazily, null)
+    }
 }
