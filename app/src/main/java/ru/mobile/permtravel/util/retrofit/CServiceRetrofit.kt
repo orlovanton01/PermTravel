@@ -7,9 +7,9 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 
 // Замените на ваш IP компа если запускаете на устройстве
 // Если в эмуляторе используйте http://10.0.2.2:8080
+// Если удалённый сервер, используйте его
 private const val BASE_URL =
-    "http://192.168.0.193:8080"
-//      "http://10.0.2.2:8080"
+    "https://permtravel.yardtech.ru"
 
 val moshi : Moshi = Moshi.Builder()
     .add(CAdapterUUID())
